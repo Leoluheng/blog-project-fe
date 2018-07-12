@@ -1,0 +1,32 @@
+<template>
+  <div id="vmaig-hotest-posts">
+    <div class="panel panel-vmaig">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <span class="glyphicon glyphicon-flag"></span>
+          热门文章
+          <span class="glyphicon glyphicon-remove btn panel-close pull-right"></span>
+          <span class="glyphicon glyphicon-chevron-up btn panel-collapse pull-right" data-toggle="collapse"
+                data-target="#hotest-post-list"></span>
+        </h3>
+      </div>
+      <ul id="hotest-post-list" class="list-group collapse in">
+        <li v-for="article in hot_article_list" class="list-group-item">
+          <span class="hotest-post-title"><a :href="'/article/?address=' + article.enTitle">{{article.title}}</a> </span>
+          <span class="badge">{{article.view_times}}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+</template>
+
+<script>
+    export default {
+        name: "HotestPost"
+    }
+</script>
+
+<style scoped>
+
+</style>

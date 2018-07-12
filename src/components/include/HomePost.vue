@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <div v-for="(post, index) in article_list" class="home-post well clearfix">

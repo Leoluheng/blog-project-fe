@@ -1,0 +1,68 @@
+<template>
+  <div>
+    <div v-for="post in article_list" class="all-post clearfix underline">
+      <div class="post-title clearfix">
+        <a :href="'/category/?category=' + post.category">
+          <div class="pre-cat">
+            <div class="pre-catinner btn">
+              {{post.category}}
+            </div>
+            <div class="pre-catarrow">
+            </div>
+          </div>
+        </a>
+        <h1><a :href="'/article/?address=' + post.enTitle">{{post.title}}</a></h1>
+
+        <div class="post-tags" style="float:right">
+          <a v-for="(tag, index) in post.get_tags" :href="'/tag/?tag=' + tag">
+            <span :class="'label label-vmaig-' + index + ' btn'">{{tag}}</span>
+          </a>
+        </div>
+      </div>
+      <div class="post-content ">
+        <div class="row">
+          <div class="col-sm-4">
+            <figure class="thumbnail">
+              <a :href="'/article/?address=' + post.enTitle">
+                <img v-if="post.showImg" :src="post.img" height="400" alt="">
+                <img v-else src="/static/img/article/default.jpg" height="400" alt="">
+              </a>
+            </figure>
+          </div>
+          <div class="col-sm-8">
+            <p>{{post.summary | trimText}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="post-info">
+        <span>
+            <span class="glyphicon glyphicon-calendar"></span>
+          <!--{{post.pub_time|date:"Y-m-d" }}-->
+            {{post.pub_time | trimDate}}
+        </span>
+        <span>
+            <span class="glyphicon glyphicon-comment"></span>
+            {{post.comment_num}}
+        </span>
+        <span>
+            <span class="glyphicon glyphicon-eye-open"></span>
+            {{post.view_times}}
+        </span>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+  export default {
+    name: "AllPost",
+    props: ['article_list'],
+    data() {
+      return {}
+    }
+  }
+</script>
+
+<style scoped>
+
+</style>

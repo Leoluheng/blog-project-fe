@@ -1,23 +1,35 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view/>
+    <!--<span class="glyphicon glyphicon-search" style="font-size: 50px"></span>-->
+    <navList/>
+    <div id="vmaig-main">
+      <div id="vmaig-content" class="container">
+        <!--this is where all the components will be injected-->
+        <router-view/>
+      </div>
+      <footer>
+        <div class="container">
+          <p class="text-center">Base on JFinal 3.1,Bootsratp3, <a href="/sitemap.xml">website map</a></p>
+        </div>
+      </footer>
+    </div>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'App'
-}
+  import navList from './components/navigation/Nav'
+
+  export default {
+    name: 'App',
+    data() {
+      return {}
+    },
+    components: {
+      navList
+    }
+  }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  @import '/assets/css/vmaig.css';
 </style>
