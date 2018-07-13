@@ -12,7 +12,10 @@
       </div>
       <ul id="hotest-post-list" class="list-group collapse in">
         <li v-for="article in hot_article_list" class="list-group-item">
-          <span class="hotest-post-title"><a :href="'/article/?address=' + article.enTitle">{{article.title}}</a> </span>
+          <span class="hotest-post-title">
+            <!--<a :href="'/article/?address=' + article.enTitle">{{article.title}}</a>-->
+            <router-link :to="{name: 'article', params: {address: article.enTitle}}">{{article.title}}</router-link>
+          </span>
           <span class="badge">{{article.view_times}}</span>
         </li>
       </ul>
@@ -23,7 +26,10 @@
 
 <script>
     export default {
-        name: "HotestPost"
+        name: "HotestPost",
+      props: {
+          hot_article_list: []
+      }
     }
 </script>
 

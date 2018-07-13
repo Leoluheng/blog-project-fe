@@ -15,27 +15,35 @@
         <div class="collapse navbar-collapse" id="vmaig-navbar-collapse">
           <ul id="nav-base" class="nav navbar-nav">
             <li class="">
-              <a href="/">
+              <!--<a href="/">-->
+              <router-link to="/">
                 <span class="glyphicon glyphicon-home"></span>
                 Home
-              </a>
+                <!--</a>-->
+              </router-link>
             </li>
             <li>
-              <a href="/all/">
+              <!--<a href="/all/">-->
+              <router-link to="/all">
                 <span class="glyphicon glyphicon-globe"></span>
                 Articles
-              </a>
+                <!--</a>-->
+              </router-link>
             </li>
             <li>
-              <a href="/news/">
+              <!--<a href="/news/">-->
+              <router-link to="/news">
                 <span class="glyphicon glyphicon-star-empty"></span>
                 News
-              </a>
+              </router-link>
+              <!--</a>-->
             </li>
             <li v-for="nav in column_list">
-              <a :href="'/column/?column=' + nav">
+              <!--<a :href="'/column/?column=' + nav">-->
+              <router-link :to="{name: 'column', params: {column: nav}}">
                 {{nav}}
-              </a>
+                <!--</a>-->
+              </router-link>
             </li>
 
           </ul>
@@ -58,29 +66,35 @@
             <li class="dropdown">
               <a href="javascript:;" style="padding:5px;" data-toggle="dropdown">
                 <img v-if="showImg" :src="img" alt="" width="40">
-                <img v-else src="/static/img/origin.jpg" alt="" width="40">
+                <img v-else src="../../assets/img/avatarDefault.png" alt="" width="40">
                 &nbsp;{{username}}
                 <span class="badge" style="background-color: #D94600;">{{user_notificationNum}}</span>
               </a>
               <ul class="dropdown-menu navbar-right">
                 <li>
-                  <a href="/user/changetx">
+                  <!--<a href="/user/changetx">-->
+                  <router-link to="/user/changeAvatar">
                     <span class="glyphicon glyphicon-user"></span>
                     Edit avatar
-                  </a>
+                    <!--</a>-->
+                  </router-link>
                 </li>
                 <li>
-                  <a href="/user/changepassword">
+                  <!--<a href="/user/changepassword">-->
+                  <router-link to="/user/changePassword">
                     <span class="glyphicon glyphicon-lock"></span>
                     Edit password
-                  </a>
+                  </router-link>
+                  <!--</a>-->
                 </li>
                 <li>
-                  <a href="/user/notification">
+                  <!--<a href="/user/notification">-->
+                  <router-link to="/user/notification">
                     <span class="glyphicon glyphicon-envelope"></span>
                     Notification
                     <span class="badge" style="background-color: #D94600;">{{user_notificationNum}}</span>
-                  </a>
+                    <!--</a>-->
+                  </router-link>
                 </li>
                 <li>
                   <a id="logout" href="javascript:;" onclick="logout()">
@@ -204,7 +218,34 @@
   export default {
     name: "Nav.vue",
     data() {
-      return {}
+      return {
+        navUser: {
+          img: "",
+          is_active: false,
+          showImg: "false",
+          user_notificationNum: 0,
+          username: ""
+        },
+        column_list: []
+      }
+    },
+    created(){
+      this.$axios("http://localhost:8080/api/navUser").then(response => {
+        var data = response.data;
+        var navUser = this.navUser;
+        navUser.img = data("img");
+        navUser.showImg = data("showImg");
+        navUser.img = data("img");
+        navUser.username = data("username");
+        navUser.user_notificationNum = data("user_notificationNum");
+      });
+      this.$axios("http://localhost:8080/api/navColumn").then(response => {
+        if (response.data.length === 0) {
+          $("navColumn").remove();
+        } else {
+          this.column_list = response.data;
+        }
+      });
     }
   }
 </script>

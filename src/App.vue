@@ -22,14 +22,37 @@
   export default {
     name: 'App',
     data() {
-      return {}
+      return {
+
+      }
     },
     components: {
       navList
+    },
+    created(){
+      this.$axios("").then(response => {
+        this.
+      })
+    },
+    filters: {
+      trimText: function (text) {
+        if (text.length > 200) {
+          return text.substring(0, 200) + "...";
+        } else {
+          return text;
+        }
+      },
+      trimDate: function (date) {
+        if (date.length > 10) {
+          return date.substring(0, 10);
+        } else {
+          return date;
+        }
+      }
     }
   }
 </script>
 
 <style>
-  @import '/assets/css/vmaig.css';
+  /*@import '/assets/css/vmaig.css';*/
 </style>

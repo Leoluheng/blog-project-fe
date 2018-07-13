@@ -12,8 +12,11 @@
       </div>
       <div id="links" class="padding10 list-group collapse in">
         <div v-for="link in links">
-          <a  :title="link.title" target="_blank" :href="link.url"
-              :class="'btn btn-xs btn-' + link.color">{{link.title}}</a>
+          <!--<a  :title="link.title" target="_blank" :href="link.url"-->
+          <!--:class="'btn btn-xs btn-' + link.color">{{link.title}}</a>-->
+          <router-link :title="link.title" target="_blank" :class="'btn btn-xs btn-' + link.color"
+                       :to="link.url">{{link.title}}
+          </router-link>
         </div>
       </div>
     </div>
@@ -21,9 +24,25 @@
 </template>
 
 <script>
-    export default {
-        name: "Links"
+  export default {
+    name: "Links",
+    props: {
+      links: {
+        type: Array
+        // default: function(){
+        //   return [{color: "primary", title: "某弹幕网", url: "https://www.bilibili.com/"},
+        //     {color: "warning", title: "Baidu", url: "https://www.baidu.com/"}];
+        // }
+      }
     }
+    // created(){
+    //   this.$axios('').then(response => {
+    //     this.links = response.data;
+    //   }).error(error => {
+    //     console.log(error);
+    //   })
+    // }
+  }
 </script>
 
 <style scoped>

@@ -11,6 +11,7 @@ import ChangePassword from '../components/user/ChangePassword'
 import Notification from '../components/user/Notification'
 import Register from '../components/Register'
 import Login from '../components/Login'
+import Article from '../components/Article'
 
 Vue.use(Router)
 
@@ -28,12 +29,12 @@ export default new Router({
       component: All
     },
     {
-      path: '/category',
+      path: '/category/:category',
       name: 'category',
       component: Category
     },
     {
-      path: '/tag',
+      path: '/tag/:tag',
       name: 'tag',
       component: Tag
     },
@@ -41,6 +42,11 @@ export default new Router({
       path: '/column',
       name: 'column',
       component: Column
+    },
+    {
+      path: '/article/:address',
+      name: 'article',
+      component: Article
     },
     {
       path: '/user',

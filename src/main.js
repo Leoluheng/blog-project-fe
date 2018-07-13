@@ -3,21 +3,32 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-// import $ from 'jquery-jcrop/js/jquery.min'
-//
+
+//Bootstrap
 import BootstrapVue from 'bootstrap-vue'
+
 Vue.use(BootstrapVue);
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 Vue.config.productionTip = true;
 
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
-// require('../node_modules/bootstrap/less/bootstrap.less');
+//Jquery
+var $ = require("jquery");
+
+// Cookie -- Require dependencies
+var VueCookie = require('vue-cookie');
+// Tell Vue to use the plugin
+Vue.use(VueCookie);
+//Axios
+import axios from 'axios'
+
+Vue.prototype.$axios = axios;
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
-  components: { App },
+  components: {App},
   template: '<App/>'
 });

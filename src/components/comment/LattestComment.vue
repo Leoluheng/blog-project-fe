@@ -38,9 +38,7 @@
     name: "LattestComment",
     props: ['latest_comment_list'],
     filters: {
-      trimText: function (text) {
 
-      }
     }
   }
 </script>

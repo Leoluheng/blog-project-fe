@@ -7,13 +7,15 @@
     <!-- 轮播（Carousel）项目 -->
     <div class="carousel-inner">
       <div v-for="(carouselPage, index) in carouselList" :class="{item : true ,active : index == 0}">
-        <a :href="'/article/?address=' + carouselPage.article_en_title">
+        <!--<a :href="'/article/?address=' + carouselPage.article_en_title">-->
+        <router-link :to="{name: 'article', params: {address: carouselPage.article_en_title}}">
           <img :src="carouselPage.img" :alt="carouselPage.title">
           <div class="carousel-caption">
             <h4>{{ carouselPage.title }}</h4>
             {{ carouselPage.summary }}
           </div>
-        </a>
+        </router-link>
+        <!--</a>-->
       </div>
     </div>
     <!-- 轮播（Carousel）导航 -->
@@ -31,11 +33,19 @@
 <script>
   export default {
     name: "Carousel",
-    data(){
+    data() {
       return {
         carouselList: []
       }
+    },
+    created() {
+      this.$axios("http://localhost:8080/api/carousel").then(response => {
+        this.carouselList = response.data;
+      }).catch(error => {
+        console.log(error);
+      })
     }
+
   }
 </script>
 

@@ -45,7 +45,10 @@
 
 <script>
   export default {
-    name: "Comment"
+    name: "Comment",
+    props: [
+      "commentList", "user_img"
+    ]
   }
 </script>
 

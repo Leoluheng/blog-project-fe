@@ -2,7 +2,8 @@
   <div>
     <div v-for="(post, index) in article_list" class="home-post well clearfix">
       <div class="post-title underline clearfix">
-        <a :href="'/category/?category=' + post.category">
+        <!--<a :href="'/category/?category=' + post.category">-->
+        <router-link :to="{ name: 'category', params: {category: post.category}}">
           <div class="pre-cat">
             <div class="pre-catinner btn">
               {{post.category}}
@@ -10,15 +11,14 @@
             <div class="pre-catarrow">
             </div>
           </div>
-        </a>
+          <!--</a>-->
+        </router-link>
         <h1>
-          <a :href="'/article/?address=' + post.enTitle">{{post.title}}</a>
+          <router-link :to="{name: 'article', params: {address : post.enTitle}}">{{post.title}}</router-link>
         </h1>
         <div class="post-info">
             <span>
                 <span class="glyphicon glyphicon-calendar"></span>
-              <!--{{post.pub_time|date:"Y-m-d" }}-->
-              <!--#&#45;&#45; #date(post.pub_time, "yyyy-MM-dd") &#45;&#45;#-->
                 {{post.pub_time | trimDate}}
             </span>
           <span>
@@ -30,9 +30,11 @@
                 {{post.view_times}}
             </span>
           <div v-for="(tag, num) in post.get_tags" class="post-tags">
-            <a :href="'/tag/?tag=' + tag" :class="{'hidden-xs' : post.showTag}">
+            <!--<a :href="'/tag/?tag=' + tag" :class="{'hidden-xs' : post.showTag}">-->
+            <router-link :to="{name: 'tag', params: {tag: tag}}" :class="{'hidden-xs' : post.showTag}">
               <span :class="'label label-vmaig-' + num + ' btn'">{{tag}}</span>
-            </a>
+            </router-link>
+            <!--</a>-->
             <a class="visible-xs-inline-block">
               <span class="label label-vmaig-2 btn ">...</span>
             </a>
@@ -44,17 +46,21 @@
         <div class="row">
           <div class="col-sm-4">
             <figure class="thumbnail">
-              <a :href="'/article/?address=' + post.enTitle">
+              <!--<a :href="'/article/?address=' + post.enTitle">-->
+              <router-link :to="{name: 'article', params: {address: post.enTitle}}">
                 <img v-if="post.showImg" :src="post.img" height="300" alt="">
-                <img v-else src="/static/img/article/default.jpg" height="300" alt="">
-
-              </a>
+                <img v-else src="../../assets/img/article/default.jpg" height="300" alt="">
+              </router-link>
+              <!--</a>-->
             </figure>
           </div>
           <div class="col-sm-8">
             <p>{{post.summary | trimText}}</p>
-            <a type="button" class="btn btn-vmaig pull-right hidden-xs"
-               :href="'/article/?address=' + post.enTitle">阅读全文</a>
+            <!--<a type="button" class="btn btn-vmaig pull-right hidden-xs"-->
+               <!--:href="'/article/?address=' + post.enTitle">阅读全文</a>-->
+            <router-link type="button" class="btn btn-vmaig pull-right hidden-xs"
+                         :to="{name: 'article', params: {address: post.enTitle}}">阅读全文
+            </router-link>
           </div>
         </div>
       </div>
@@ -67,28 +73,17 @@
     name: "HomePost.vue",
     data() {
       return {
-        "links": [{"color": "primary", "title": "某弹幕网", "url": "https://www.bilibili.com/"}, {
-          "color": "warning",
-          "title": "Baidu",
-          "url": "https://www.baidu.com/"
-        }],
-        "article_list": [{
-          "summary": "一个测试用的文本",
-          "comment_num": 5,
-          "img": "",
-          "enTitle": "test.html",
-          "view_times": 3,
-          "showTag": true,
-          "pub_time": "2018-06-08 14:46:29",
-          "page_obj": null,
-          "getTags": ["测试", "其他"],
-          "category": "其他",
-          "title": "测试测试",
-          "showImg": false
-        }]
+        article_list: []
       }
 
-    }
+    },
+    // created() {
+    //   this.$axios().then(response => {
+    //     this.article_list = response.data;
+    //   }).error(error => {
+    //     console.log(error);
+    //   })
+    // }
   }
 </script>
 
