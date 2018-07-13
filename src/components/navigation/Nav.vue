@@ -219,26 +219,10 @@
     name: "Nav.vue",
     data() {
       return {
-        navUser: {
-          img: "",
-          is_active: false,
-          showImg: "false",
-          user_notificationNum: 0,
-          username: ""
-        },
         column_list: []
       }
     },
     created(){
-      this.$axios("http://localhost:8080/api/navUser").then(response => {
-        var data = response.data;
-        var navUser = this.navUser;
-        navUser.img = data("img");
-        navUser.showImg = data("showImg");
-        navUser.img = data("img");
-        navUser.username = data("username");
-        navUser.user_notificationNum = data("user_notificationNum");
-      });
       this.$axios("http://localhost:8080/api/navColumn").then(response => {
         if (response.data.length === 0) {
           $("navColumn").remove();

@@ -37,7 +37,36 @@
 
 <script>
   export default {
-    name: "ChangePassword"
+    name: "ChangePassword",
+    created() {
+      $('#change-password-form').submit(function () {
+        this.$axios.post("/api/user/doChangePassword", {
+          old_password: $("#old-password").val(),
+          new_password1: $("#new-password-1").val(),
+          new_password2: $("#new-password-2").val(),
+          is_active: this.$route.params.is_active,
+          username: this.$route.params.username
+        }).then(response => {
+          var errors = response["errors"];
+          if (errors.length === 0) {
+            location.replace("/api/user/login");
+          } else {
+            var html = "<div class=\"alert alert-danger\">"
+            for (var key in errors) {
+              html += errors[key] + "<br/>";
+            }
+            html += "</div>";
+            $("#change-password .underline").after(html);
+          }
+        }).error(XMLHttpRequest => {
+          alert(XMLHttpRequest.responseText);
+        });
+      })
+
+      $("#change-password-button").click(function () {
+        $("#change-password .alert").remove();
+      });
+    }
   }
 </script>
 

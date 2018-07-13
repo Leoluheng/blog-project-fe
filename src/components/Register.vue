@@ -44,9 +44,38 @@
 </template>
 
 <script>
-    export default {
-        name: "Register"
+  export default {
+    name: "Register",
+    created() {
+      $('#vmaig-auth-register-form').submit(function () {
+        this.$axios("/api/user/doRegister", {
+          username: $("#vmaig-auth-register-username").val(),
+          email: $("#vmaig-auth-register-email").val(),
+          password1: $("#vmaig-auth-register-password1").val(),
+          password2: $("#vmaig-auth-register-password2").val()
+        }).then(response => {
+          var errors = response["errors"];
+          if (errors.length === 0) {
+            location.replace("/");
+          } else {
+            var html = "<div class=\"alert alert-danger\">"
+            for (var key in errors) {
+              html += errors[key] + "<br/>";
+            }
+            html += "</div>";
+            $("#vmaig-auth-register .panel-heading").after(html);
+          }
+        }).error(XMLHttpRequest => {
+          alert(XMLHttpRequest.responseText);
+        });
+        return false;
+      });
+
+      $("#vmaig-auth-register-button").click(function () {
+        $("#vmaig-auth-register .alert").remove();
+      });
     }
+  }
 </script>
 
 <style scoped>

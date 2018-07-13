@@ -22,9 +22,11 @@
             <input id="vmaig-auth-login-password" type="password" class="form-control">
           </div>
         </div>
-        <div id="vmaig-auth-forgetpassword"><a href="/user/forgetPassword">忘记密码?</a></div>
+        <div id="vmaig-auth-forgetpassword">
+          <router-link to="/user/forgetPassword">忘记密码?</router-link>
+        </div>
         <button id="vmaig-auth-login-button" type="submit" class="btn btn-vmaig-auth pull-left">登录</button>
-        <a href="/user/register" type="button" class="btn btn-vmaig-auth pull-right">注册</a>
+        <router-link to="/user/register" type="button" class="btn btn-vmaig-auth pull-right">注册</router-link>
       </form>
     </div>
   </div>
@@ -32,7 +34,30 @@
 
 <script>
   export default {
-    name: "Login"
+    name: "Login",
+    created() {
+      $('#vmaig-auth-login-form').submit(function () {
+        this.$axios.post("/api/user/doLogin", {
+          username: $("#vmaig-auth-login-username").val(),
+          password: $("#vmaig-auth-login-password").val()
+        }).then(response => {
+          var errors = response["errors"];
+          if (errors === null || errors.length === 0) {
+            location.replace("/");
+          }
+          else {
+            var str = "";
+            for (var key in errors) {
+              str += errors[key] + "\n";
+            }
+            alert(str);
+          }
+        }).error(XMLHttpRequest => {
+          alert(XMLHttpRequest.responseText);
+        });
+        return false;
+      });
+    }
   }
 </script>
 

@@ -23,16 +23,28 @@
     name: 'App',
     data() {
       return {
-
+        navUser: {
+          img: "",
+          is_active: false,
+          showImg: "false",
+          user_notificationNum: 0,
+          username: ""
+        }
       }
     },
     components: {
       navList
     },
     created(){
-      this.$axios("").then(response => {
-        this.
-      })
+      this.$axios("http://localhost:8080/api/navUser").then(response => {
+        var data = response.data;
+        var navUser = this.navUser;
+        navUser.img = data("img");
+        navUser.showImg = data("showImg");
+        navUser.img = data("img");
+        navUser.username = data("username");
+        navUser.user_notificationNum = data("user_notificationNum");
+      });
     },
     filters: {
       trimText: function (text) {

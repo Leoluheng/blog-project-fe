@@ -39,7 +39,7 @@ export default new Router({
       component: Tag
     },
     {
-      path: '/column',
+      path: '/column/:column',
       name: 'column',
       component: Column
     },
@@ -54,17 +54,17 @@ export default new Router({
       redirect: '/user/changeAvatar',
       children: [
         {
-          path: 'changeAvatar',
+          path: 'changeAvatar/:username',
           name: 'changeAvatar',
           component: ChangeAvatar
         },
         {
-          path: 'changePassword',
+          path: 'changePassword/:username, is_active',
           name: 'changePassword',
           component: ChangePassword
         },
         {
-          path: 'notification',
+          path: 'notification/:username',
           name: 'notification',
           component: Notification
         }
