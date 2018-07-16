@@ -18,7 +18,7 @@
         </h1>
 
         <div class="post-tags" style="float:right">
-          <router-link v-for="(tag, index) in post.get_tags" :to="{name: 'tag', params: {tag: tag}}">
+          <router-link v-for="(tag, index) in post.get_tags" :key="tag" :to="{name: 'tag', params: {tag: tag}}">
             <span :class="'label label-vmaig-' + index + ' btn'">{{tag}}</span>
           </router-link>
         </div>
@@ -60,10 +60,7 @@
 <script>
   export default {
     name: "AllPost",
-    props: ['article_list'],
-    data() {
-      return {}
-    }
+    props: ['article_list']
   }
 </script>
 

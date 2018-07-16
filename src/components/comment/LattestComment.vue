@@ -36,10 +36,7 @@
 <script>
   export default {
     name: "LattestComment",
-    props: ['latest_comment_list'],
-    filters: {
-
-    }
+    props: ['latest_comment_list']
   }
 </script>
 

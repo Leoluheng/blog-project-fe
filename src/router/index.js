@@ -12,8 +12,9 @@ import Notification from '../components/user/Notification'
 import Register from '../components/Register'
 import Login from '../components/Login'
 import Article from '../components/Article'
+import ForgetPassword from '../components/ForgetPassword'
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   mode: "history",
@@ -80,6 +81,11 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: Login
+    },
+    {
+      path: '/forgetPassword',
+      name: 'forgetPassword',
+      component: ForgetPassword
     }
   ]
 })

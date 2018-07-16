@@ -1,46 +1,47 @@
 <template>
-  <div id="anchor-quote"></div>
-  <div class="well">
-    <div class="vmaig-comment">
-      <div class="vmaig-comment-tx">
-        <img v-if="user_img != ''" :src="user_img" width="40"/>
-        <img v-else src="/static/img/origin.jpg" width="40"/>
-      </div>
-      <div class="vmaig-comment-edit clearfix">
-        <form id="vmaig-comment-form" method="post" role="form">
-          <!--{% csrf_token %}-->
-          <textarea id="comment" name="comment" class="form-control" rows="4"
-                    placeholder="请输入评论 限200字!"></textarea>
-          <button id="submitComment" type="submit" class="btn btn-vmaig-comments pull-right">提交</button>
-        </form>
-      </div>
-      <ul>
-        <li v-for="(comment, index) in commentList">
-          <div class="vmaig-comment-tx">
-            <img v-if="comment.showImg == 'true'" :src="comment.user_img" width="40"/>
-            <img v-else src="http://vmaig.qiniudn.com/image/tx/tx-default.jpg" width="40"/>
-          </div>
-          <div class="vmaig-comment-content">
-            <a><h1>{{comment.user_username}}</h1></a>
-            <div v-if="-1 != comment.parent" class="comment-quote" :id="'comment' + comment.parent">
+  <div>
+    <div id="anchor-quote"></div>
+    <div class="well">
+      <div class="vmaig-comment">
+        <div class="vmaig-comment-tx">
+          <img v-if="user_img != ''" :src="user_img" width="40"/>
+          <img v-else src="/static/img/origin.jpg" width="40"/>
+        </div>
+        <div class="vmaig-comment-edit clearfix">
+          <form id="vmaig-comment-form" method="post" role="form">
+            <!--{% csrf_token %}-->
+            <textarea id="comment" name="comment" class="form-control" rows="4"
+                      placeholder="请输入评论 限200字!"></textarea>
+            <button id="submitComment" type="submit" class="btn btn-vmaig-comments pull-right">提交</button>
+          </form>
+        </div>
+        <ul>
+          <li v-for="(comment, index) in commentList">
+            <div class="vmaig-comment-tx">
+              <img v-if="comment.showImg == 'true'" :src="comment.user_img" width="40"/>
+              <img v-else src="http://vmaig.qiniudn.com/image/tx/tx-default.jpg" width="40"/>
+            </div>
+            <div class="vmaig-comment-content">
+              <a><h1>{{comment.user_username}}</h1></a>
+              <div v-if="-1 != comment.parent" class="comment-quote" :id="'comment' + comment.parent">
+                <p>
+                  <a>@{{comment.parentUser_username}}：</a>
+                  {{comment.parent_text}}
+                </p>
+              </div>
               <p>
-                <a>@{{comment.parentUser_username}}：</a>
-                {{comment.parent_text}}
+                评论：
+                {{comment.text}}
+              </p>
+              <p>{{comment.create_time | trimDate}} &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                <a class='quote' href="#anchor-quote" @click="reply(comment.user_username, comment.commentId)">回复</a>
               </p>
             </div>
-            <p>
-              评论：
-              {{comment.text}}
-            </p>
-            <p>{{comment.create_time | trimDate}} &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-              <a class='quote' href="#anchor-quote" @click="reply(comment.user_username, comment.commentId)">回复</a>
-            </p>
-          </div>
-        </li>
-      </ul>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
-
 </template>
 
 <script>

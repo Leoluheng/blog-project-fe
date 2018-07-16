@@ -19,7 +19,7 @@
             {{post.pub_time}}
         </span>
         <div class="post-tags">
-          <router-link v-for="(tag, index) in post.get_tags" :to="{name: 'tag', params:{tag: tag}}">
+          <router-link v-for="(tag, index) in post.get_tags" :key="tag" :to="{name: 'tag', params:{tag: tag}}">
             <span :class="'label label-vmaig-' + index + ' btn'">{{tag}}</span>
           </router-link>
         </div>

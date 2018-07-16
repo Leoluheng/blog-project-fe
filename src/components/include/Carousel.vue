@@ -40,7 +40,23 @@
     },
     created() {
       this.$axios("http://localhost:8080/api/carousel").then(response => {
-        this.carouselList = response.data;
+        if (response.data.length === 0) {
+          this.carouselList = [{
+            "carousel_list": [{
+              "summary": "ahahahha",
+              "article_en_title": "test.html",
+              "img": "static/img/carousel/default.jpg",
+              "title": "Hello"
+            }, {
+              "summary": "hello, this is the second carousel page",
+              "article_en_title": "test.html",
+              "img": "static/img/carousel/default.jpg",
+              "title": "Second post"
+            }]
+          }];
+        }else{
+          this.carouselList = response.data;
+        }
       }).catch(error => {
         console.log(error);
       })

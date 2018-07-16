@@ -26,7 +26,7 @@
             <h1>{{article.title}}</h1>
           </div>
           <div class="article-tags">
-            <router-link v-for="(tag, index) in article.get_tags" :to="{name: 'tag', params: {tag: tag}}">
+            <router-link v-for="(tag, index) in article.get_tags" :key="tag" :to="{name: 'tag', params: {tag: tag}}">
               <span :class="'label label-vmaig-' + index + 'btn'">{{tag}}</span>
             </router-link>
           </div>

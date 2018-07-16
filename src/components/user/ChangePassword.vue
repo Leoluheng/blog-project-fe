@@ -40,12 +40,19 @@
     name: "ChangePassword",
     created() {
       $('#change-password-form').submit(function () {
-        this.$axios.post("/api/user/doChangePassword", {
-          old_password: $("#old-password").val(),
-          new_password1: $("#new-password-1").val(),
-          new_password2: $("#new-password-2").val(),
-          is_active: this.$route.params.is_active,
-          username: this.$route.params.username
+        this.$axios({
+          method: 'post',
+          url: "/api/user/doChangePassword",
+          data: {
+            old_password: $("#old-password").val(),
+            new_password1: $("#new-password-1").val(),
+            new_password2: $("#new-password-2").val(),
+            is_active: this.$route.params.is_active,
+            username: this.$route.params.username
+          },
+          header: {
+            'csrf-token': this.$cookie.get('csrf-token')
+          }
         }).then(response => {
           var errors = response["errors"];
           if (errors.length === 0) {

@@ -99,9 +99,16 @@
 
         fd.append('file', blob);
         //debugger;
-        this.$axios.post("/api/user/dochangetx", {
-          username: this.$route.params.username,
-          tx: canvas.toDataURL().split(',')[1]
+        this.$axios({
+          method: 'post',
+          url: "/api/user/dochangetx",
+          data: {
+            username: this.$route.params.username,
+            tx: canvas.toDataURL().split(',')[1]
+          },
+          headers: {
+            'csrf-token': this.$cookie.get('csrf-token')
+          }
         }).then(response => {
           top.location.reload();
           alert(data);

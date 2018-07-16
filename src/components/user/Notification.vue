@@ -2,7 +2,7 @@
   <div id="notification" class="well clearfix">
     <h2 class="underline">消息</h2>
     <div class="list-group">
-      <router-link v-for="notification in notificationList" @click="readNotif(notification)"
+      <router-link v-for="notification in notificationList" :key="notification.id" @click="readNotif(notification)"
                    class="list-group-item"
                    :value="notification.id"
                    style="border-top-left-radius: 0px;border-top-right-radius: 0px;">
@@ -24,8 +24,15 @@
     },
     methods: {
       readNotif: function (notification) {
-        this.$axios.post("/api/user/setNotificationRead", {
-          notification_id: notification.id
+        this.$axios({
+          method: "post",
+          url: "/api/user/setNotificationRead",
+          data: {
+            notification_id: notification.id
+          },
+          header: {
+            'csrf-token': this.$cookie.get('csrf-token')
+          }
         }).then(response => {
           window.location.href = '/article/?address=' + notification.url + '#comment' + notification.commentId;
         }).error(XMLHttpRequest => {

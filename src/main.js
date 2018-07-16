@@ -14,7 +14,8 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.config.productionTip = true;
 
 //Jquery
-var $ = require("jquery");
+import JQuery from 'jquery'
+Vue.use(JQuery);
 
 // Cookie -- Require dependencies
 var VueCookie = require('vue-cookie');

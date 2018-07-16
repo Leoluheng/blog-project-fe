@@ -48,11 +48,18 @@
     name: "Register",
     created() {
       $('#vmaig-auth-register-form').submit(function () {
-        this.$axios("/api/user/doRegister", {
-          username: $("#vmaig-auth-register-username").val(),
-          email: $("#vmaig-auth-register-email").val(),
-          password1: $("#vmaig-auth-register-password1").val(),
-          password2: $("#vmaig-auth-register-password2").val()
+        this.$axios({
+          method: 'post',
+          url: "/api/user/doRegister",
+          data: {
+            username: $("#vmaig-auth-register-username").val(),
+            email: $("#vmaig-auth-register-email").val(),
+            password1: $("#vmaig-auth-register-password1").val(),
+            password2: $("#vmaig-auth-register-password2").val()
+          },
+          header: {
+            'csrf-token': this.$cookie.get('csrf-token')
+          }
         }).then(response => {
           var errors = response["errors"];
           if (errors.length === 0) {

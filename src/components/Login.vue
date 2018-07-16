@@ -37,9 +37,16 @@
     name: "Login",
     created() {
       $('#vmaig-auth-login-form').submit(function () {
-        this.$axios.post("/api/user/doLogin", {
-          username: $("#vmaig-auth-login-username").val(),
-          password: $("#vmaig-auth-login-password").val()
+        this.$axios({
+          method: 'post',
+          url: "/api/user/doLogin",
+          data: {
+            username: $("#vmaig-auth-login-username").val(),
+            password: $("#vmaig-auth-login-password").val()
+          },
+          header: {
+            'csrf-token': this.$cookie.get('csrf-token')
+          }
         }).then(response => {
           var errors = response["errors"];
           if (errors === null || errors.length === 0) {
