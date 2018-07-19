@@ -30,7 +30,7 @@
             <figure class="thumbnail">
               <router-link :to="{name: 'article', params:{address: post.enTitle}}">
                 <img v-if="post.showImg" :src="post.img" height="400" alt="">
-                <img v-else src="../../assets/img/article/default.jpg" height="400" alt="">
+                <img v-else src="../../../static/img/article/default.jpg" height="400" alt="">
               </router-link>
             </figure>
           </div>
@@ -62,7 +62,23 @@
 <script>
   export default {
     name: "TagPost",
-    props: ["article_list"]
+    props: ["article_list"],
+    filters: {
+      trimText: function (text) {
+        if (text.length > 200) {
+          return text.substring(0, 200) + "...";
+        } else {
+          return text;
+        }
+      },
+      trimDate: function (date) {
+        if (date.length > 10) {
+          return date.substring(0, 10);
+        } else {
+          return date;
+        }
+      }
+    }
   }
 </script>
 

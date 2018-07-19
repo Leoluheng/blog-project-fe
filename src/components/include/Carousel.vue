@@ -55,7 +55,7 @@
             }]
           }];
         }else{
-          this.carouselList = response.data;
+          this.carouselList = response.data["carousel_list"];
         }
       }).catch(error => {
         console.log(error);

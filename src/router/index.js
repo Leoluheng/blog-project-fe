@@ -13,10 +13,23 @@ import Register from '../components/Register'
 import Login from '../components/Login'
 import Article from '../components/Article'
 import ForgetPassword from '../components/ForgetPassword'
+import SearchPage from '../components/Search'
+import News from '../components/News'
 
 Vue.use(Router);
+//
+// const scrollBehavior  = function (to, from, savedPosition) {
+//   if (to.hash) {
+//     return {
+//       selector: to.hash
+//       // , offset: { x: 0, y: 10 }
+//     }
+//   }
+// }
 
 export default new Router({
+
+  // scrollBehavior,
   mode: "history",
   routes: [
     {
@@ -60,7 +73,7 @@ export default new Router({
           component: ChangeAvatar
         },
         {
-          path: 'changePassword/:username, is_active',
+          path: 'changePassword/:username',
           name: 'changePassword',
           component: ChangePassword
         },
@@ -86,6 +99,16 @@ export default new Router({
       path: '/forgetPassword',
       name: 'forgetPassword',
       component: ForgetPassword
+    },
+    {
+      path: '/search/:keyword',
+      name: 'search',
+      component: SearchPage
+    },
+    {
+      path: '/news',
+      name: 'news',
+      component: News
     }
   ]
 })

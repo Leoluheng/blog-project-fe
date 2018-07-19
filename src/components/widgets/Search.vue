@@ -1,20 +1,34 @@
 <template>
   <div id="vmaig-search">
     <div class="search">
-      <form class="form-inline clearfix" role="form" method="get" action="/search">
-        <input type="text" class="form-control" id="s" name="s">
-        <button class="btn btn-vmaig">
+      <div class="form-inline clearfix" >
+        <input @keyup.enter="doSearch" v-model="keyword" type="text" class="form-control" id="s">
+        <a class="btn btn-vmaig" @click="doSearch">
           <span class="glyphicon glyphicon-search"></span>
-        </button>
-      </form>
+        </a>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-    export default {
-        name: "Search"
+  export default {
+    name: "Search",
+    data() {
+      return {
+        keyword: ""
+      }
+    },
+    methods: {
+      doSearch: function () {
+        // let keyword = this.keyword;
+        // this.keyword = "";
+        this.$router.push({
+          name: "search", params: {keyword: this.keyword}
+        });
+      }
     }
+  }
 </script>
 
 <style scoped>

@@ -7,15 +7,17 @@
   <!--viewport for mobile phone-->
   <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0"/>
   <title>leoluheng</title>
-  <link rel="shortcut icon" href="/src/assets/img/favicon.ico"/>
-  <link rel="bookmark" href="/src/assets/img/favicon.ico"/>
-  <link rel="stylesheet" href="/src/assets/css/vmaig.css">
-  <link rel="stylesheet" href="/src/assets/css/vmaig_comments.css">
-  <link rel="stylesheet" href="/src/assets/css/vmaig_auth.css">
-  <link rel="stylesheet" href="/src/assets/css/myStyle.css">
+  <link rel="shortcut icon" href="/static/img/favicon.ico"/>
+  <link rel="bookmark" href="/static/img/favicon.ico"/>
+  <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/vmaig.css">
+  <link rel="stylesheet" href="/static/css/vmaig_comments.css">
+  <link rel="stylesheet" href="/static/css/vmaig_auth.css">
+  <link rel="stylesheet" href="/static/css/myStyle.css">
+
   <link rel="stylesheet" href="/src/assets/jquery/jquery.Jcrop.min.css">
   <!--Jcrop for avatar editing-->
-  <script src="/src/assets/jquery/jquery.Jcrop.min.js"></script>
+  <!--<script src="/src/assets/jquery/jquery.Jcrop.min.js"></script>-->
 
   <!--<script src="/src/assets/jquery/jquery.form.js"></script>-->
 
@@ -46,13 +48,14 @@
   </script>
   <script async="" src="https://static.hotjar.com/c/hotjar-718794.js?sv=6"></script>
   <script async="" src="https://script.hotjar.com/modules-096d0aaa92e12d012bf20b62f8a4a0ee.js"></script>
+  <!--<script type="text/javascript" src="/node_modules/vue-crop/vue-crop.js"></script>-->
 </head>
 <body id="vmaig">
 
 <div id="app">
 </div>
 <!-- built files will be auto injected -->
-<script type="text/javascript" src="/src/assets/js/vmaig.js"></script>
+<!--<script type="text/javascript" src="/src/assets/js/vmaig.js"></script>-->
 <iframe name="_hjRemoteVarsFrame" title="_hjRemoteVarsFrame" id="_hjRemoteVarsFrame"
         src="https://vars.hotjar.com/rcj-99d43ead6bdf30da8ed5ffcb4f17100c.html"
         style="display: none !important; width: 1px !important; height: 1px !important;
@@ -65,6 +68,11 @@
     height: 1px !important;
     opacity: 0 !important;
     pointer-events: none !important;
+  }
+  #tags_cloud {
+    background-color: rgba(0,0,0,0.6);
+    border-radius: 4px;
+    margin-bottom: 20px;
   }
 </style>
 </body>

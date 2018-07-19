@@ -49,7 +49,7 @@
               <!--<a :href="'/article/?address=' + post.enTitle">-->
               <router-link :to="{name: 'article', params: {address: post.enTitle}}">
                 <img v-if="post.showImg" :src="post.img" height="300" alt="">
-                <img v-else src="../../assets/img/article/default.jpg" height="300" alt="">
+                <img v-else src="../../../static/img/article/default.jpg" height="300" alt="">
               </router-link>
               <!--</a>-->
             </figure>
@@ -57,7 +57,7 @@
           <div class="col-sm-8">
             <p>{{post.summary | trimText}}</p>
             <!--<a type="button" class="btn btn-vmaig pull-right hidden-xs"-->
-               <!--:href="'/article/?address=' + post.enTitle">阅读全文</a>-->
+            <!--:href="'/article/?address=' + post.enTitle">阅读全文</a>-->
             <router-link type="button" class="btn btn-vmaig pull-right hidden-xs"
                          :to="{name: 'article', params: {address: post.enTitle}}">阅读全文
             </router-link>
@@ -70,19 +70,31 @@
 
 <script>
   export default {
-    name: "HomePost.vue",
-    data() {
-      return {
-        article_list: []
+    name: "HomePost",
+    props: ["article_list"],
+    filters: {
+      trimText: function (text) {
+        if (text.length > 200) {
+          return text.substring(0, 200) + "...";
+        } else {
+          return text;
+        }
+      },
+      trimDate: function (date) {
+        if (date.length > 10) {
+          return date.substring(0, 10);
+        } else {
+          return date;
+        }
       }
-
-    },
+    }
     // created() {
-    //   this.$axios().then(response => {
-    //     this.article_list = response.data;
-    //   }).error(error => {
-    //     console.log(error);
-    //   })
+    //   console.log(vue.trimDate);
+      //   this.$axios().then(response => {
+      //     this.article_list = response.data;
+      //   }).error(error => {
+      //     console.log(error);
+      //   })
     // }
   }
 </script>

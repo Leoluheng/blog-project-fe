@@ -8,7 +8,7 @@
               全部
               <input type="radio" name="category" value="all" style="display:none"/>
             </label>
-            <label v-for="category in category_list">
+            <label v-if="showCategory" v-for="category in category_list">
               {{category.name}}
               <input type="radio" name="category" :value="category.name" style="display:none"/>
             </label>
@@ -29,10 +29,10 @@
           </label>
         </div>
 
-        <div id="all-post-list">
+        <div id="all-post-list" v-if="showArticle">
           <AllPost :article_list="article_list"></AllPost>
-
         </div>
+        <div v-else v-html="substitution"></div>
         <div id="loading" style="height:100px;line-height:100px;text-align:center;display:none;">
           <img src="http://vmaig.qiniudn.com/loading.gif" alt="">
         </div>
@@ -48,8 +48,8 @@
     <div id="vmaig-side" class="col-md-4 col-lg-3 hidden-xs">
       <TagsCloud></TagsCloud>
       <Search></Search>
-      <HotestPost :hot_article_list="hottest_article"></HotestPost>
-      <LattestComment :latest_comment_list="latestComment"></LattestComment>
+      <HotestPost :hot_article_list="hottest_article" :show_hot_post="showHotPost"></HotestPost>
+      <LattestComment :latest_comment_list="latestComment" :show_latest_comment="showLatestComment"></LattestComment>
     </div>
 
   </div>
@@ -60,16 +60,22 @@
   import TagsCloud from "./widgets/TagsCloud";
   import Search from "./widgets/Search";
   import HotestPost from "./widgets/HotestPost";
-  import LattestComment from "./comment/LattestComment";
+  import LattestComment from "./comment/LatestComment";
 
   export default {
     name: "All",
     data() {
       return {
         category_list: [],
+        showCategory: true,
+        showArticle: true,
+        substitution: "<div class='home-post well clearfix'>\n<div class='post-title " +
+        "underline clearfix'><h1>There is no articles posted yet!!!!</h1></div></div>",
         article_list: [],
         latestComment: [],
-        hottest_article: []
+        hottest_article: [],
+        showHotPost: true,
+        showLatestComment: true
       }
     },
     components: {
@@ -81,35 +87,34 @@
     },
     created() {
       this.$axios("http://localhost:8080/api/all/doIndex").then(response => {
-        if (response.data("category_list").length === 0) {
-          $("div .tag-list").children("label").first().nextAll().remove();
+        if (response.data["category_list"].length === 0) {
+          this.showCategory = false;
         } else {
-          this.category_list = response.data("category_list");
+          this.category_list = response.data["category_list"];
         }
 
-        if (response.data("article_list") === 0) {
-          $("#all-post-list").empty().html("<div class='home-post well clearfix'>\n<div class='post-title " +
-            "underline clearfix'><h1>There is no articles posted yet!!!!</h1></div></div>");
+        if (response.data["article_list"] === 0) {
+          this.showArticle = false;
         } else {
-          this.article_list = response.data("article_list");
+          this.article_list = response.data["article_list"];
         }
-      }).error(error => {
+      }).catch(error => {
         console.log(error);
       });
 
       this.$axios("http://localhost:8080/api/sideWidgets").then(response => {
-        if (response.data("hot_article_list").length === 0) {
-          $("#hotest-post-list").empty();
+        if (response.data["hot_article_list"].length === 0) {
+          this.showHotPost = false;
         } else {
-          this.hottest_article = response.data("hot_article_list");
+          this.hottest_article = response.data["hot_article_list"];
         }
-        if (response.data("latest_comment_list").length === 0) {
-          $("#latest-comment-list").empty();
+        if (response.data["latest_comment_list"].length === 0) {
+          this.showLatestComment = false;
         }
         else {
-          this.latestComment = response.data("latest_comment_list");
+          this.latestComment = response.data["latest_comment_list"];
         }
-      }).error(error => {
+      }).catch(error => {
         console.log(error);
       });
     }

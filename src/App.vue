@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <!--<span class="glyphicon glyphicon-search" style="font-size: 50px"></span>-->
-    <navList/>
+    <navList :navUser="navUser"></navList>
     <div id="vmaig-main">
       <div id="vmaig-content" class="container">
         <!--this is where all the components will be injected-->
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-  import navList from './components/navigation/Nav'
+  import navList from './components/navigation/Navigation'
 
   export default {
     name: 'App',
@@ -39,32 +39,18 @@
       this.$axios("http://localhost:8080/api/navUser").then(response => {
         var data = response.data;
         var navUser = this.navUser;
-        navUser.img = data("img");
-        navUser.showImg = data("showImg");
-        navUser.img = data("img");
-        navUser.username = data("username");
-        navUser.user_notificationNum = data("user_notificationNum");
+        navUser.img = data["img"];
+        navUser.showImg = data["showImg"];
+        navUser.is_active = data["is_active"];
+        navUser.username = data["username"];
+        navUser.user_notificationNum = data["user_notificationNum"];
+      }).catch(error =>{
+        console.log(error);
       });
-    },
-    filters: {
-      trimText: function (text) {
-        if (text.length > 200) {
-          return text.substring(0, 200) + "...";
-        } else {
-          return text;
-        }
-      },
-      trimDate: function (date) {
-        if (date.length > 10) {
-          return date.substring(0, 10);
-        } else {
-          return date;
-        }
-      }
     }
   }
 </script>
 
-<style>
-  /*@import '/assets/css/vmaig.css';*/
-</style>
+<!--<style>-->
+  <!--/*@import '/assets/css/vmaig.css';*/-->
+<!--</style>-->

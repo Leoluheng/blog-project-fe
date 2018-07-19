@@ -2,6 +2,9 @@
   <div id="vmaig-auth-forgetpassword">
     <div class="panel panel-vmaig-auth">
       <div class="panel-heading">
+        <transition name="fade">
+          <span v-if="show" v-html="warning"></span>
+        </transition>
         <h3 class="panel-title">忘记密码</h3>
       </div>
       <form id="vmaig-auth-forgetpassword-form" class="form-horizontal clearfix" method="post" role="form">
@@ -9,20 +12,22 @@
         <div class="form-group">
           <label for="vmaig-auth-forgetpassword-username" class="col-sm-2 control-label">用户名</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" id="vmaig-auth-forgetpassword-username"
+            <input v-model="username" type="text" class="form-control" id="vmaig-auth-forgetpassword-username"
                    placeholder="请输入用户名">
           </div>
         </div>
         <div class="form-group">
           <label for="vmaig-auth-forgetpassword-email" class="col-sm-2 control-label">email</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" id="vmaig-auth-forgetpassword-email"
+            <input v-model="email" type="text" class="form-control" id="vmaig-auth-forgetpassword-email"
                    placeholder="请输入email">
           </div>
         </div>
         <br/>
 
-        <button id="vmaig-auth-forgetpassword-button" type="submit" class="btn btn-vmaig-auth pull-right">提交</button>
+        <button id="vmaig-auth-forgetpassword-button" type="submit" class="btn btn-vmaig-auth pull-right"
+                @click="submit">提交
+        </button>
       </form>
     </div>
   </div>
@@ -31,11 +36,25 @@
 <script>
   export default {
     name: "ForgetPassword",
+    data() {
+      return {
+        username: "",
+        email: "",
+        show: true,
+        warning: ""
+      }
+    },
+    methods: {
+      submit: function () {
+        this.show = false;
+        this.warning = "";
+      }
+    },
     created() {
       $('#vmaig-auth-forgetpassword-form').submit(function () {
         this.$axios.post('fixforgetPassword', {
-          username: $("#vmaig-auth-forgetpassword-username").val(),
-          email: $("#vmaig-auth-forgetpassword-email").val()
+          username: this.username,
+          email: this.password
         }).then(response => {
           let errors = response["errors"];
           if (errors.length === 0) {
@@ -51,22 +70,31 @@
               html += errors[key] + "<br/>";
             }
             html += "</div>";
-            $("#vmaig-auth-forgetpassword .panel-heading").after(html);
+            this.warning = html;
+            this.show = true;
+            // $("#vmaig-auth-forgetpassword .panel-heading").after(html);
+
           }
-        }).error(XMLHttpRequest => {
+        }).catch(XMLHttpRequest => {
           alert(XMLHttpRequest.responseText);
         });
 
         return false;
       });
 
-      $("#vmaig-auth-forgetpassword-button").click(function () {
-        $("#vmaig-auth-forgetpassword .alert").remove();
-      });
+      // $("#vmaig-auth-forgetpassword-button").click(function () {
+      //   $("#vmaig-auth-forgetpassword .alert").remove();
+      // });
     }
   }
 </script>
 
 <style scoped>
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+  }
 
 </style>

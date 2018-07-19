@@ -17,7 +17,7 @@
         </div>
       </div>
       <!-- 首页文章列表 -->
-      <div id="home-post-list">
+      <div id="home-post-list" v-if="showHomePost">
         <!-- 首页轮播 -->
         <!--#include("include/carousel.html")-->
         <Carousel></Carousel>
@@ -28,26 +28,21 @@
           <homePost :article_list="article_list"></homePost>
         </span>
         <!--分页 -->
-        #if(null != page_obj)
         <Pagination></Pagination>
-        #end
       </div>
+      <div v-else v-html="substitution"></div>
     </div>
 
     <!-- 右边的widgets -->
     <div id="vmaig-side" class="col-md-4 col-lg-3 hidden-xs">
-      <!--#include("widgets/tags_cloud.html")-->
       <TagsCloud></TagsCloud>
-      <!--#include("widgets/search.html")-->
       <Search></Search>
-      <!--#include("widgets/hotest_posts.html")-->
-      <HotestPost :hot_article_list="hottest_article"></HotestPost>
-      <!--#include("vmaig_comments/latest_comments.html")-->
-      <LattestComment :latest_comment_list="latestComment"></LattestComment>
-      <span id="vmaig-link">
-        <!--#include("widgets/links.html")-->
+      <HotestPost :hot_article_list="hottest_article" :show_hot_post="showHotPost"></HotestPost>
+      <LatestComment :latest_comment_list="latestComment" :show_latest_comment="showLatestComment"></LatestComment>
+      <span id="vmaig-link" v-if="showLinks">
         <Links :links="links"></Links>
       </span>
+      <span v-else v-html="substitutionLinks"></span>
     </div>
   </div>
 </template>
@@ -60,7 +55,7 @@
   import Search from './widgets/Search'
   import HotestPost from "./widgets/HotestPost";
   import Links from "./widgets/Links";
-  import LattestComment from "./comment/LattestComment";
+  import LatestComment from "./comment/LatestComment";
 
   export default {
     name: "Index",
@@ -68,12 +63,20 @@
       return {
         article_list: [],
         links: [],
+        substitution: "<div class='home-post well clearfix'>\n<div class='post-title underline clearfix'>" +
+        "\n<h1>There is no articles posted yet!!!!</h1></div></div>",
+        showHomePost: true,
+        substitutionLinks: "<div class='padding10 list-group collapse in'><h1>Our blog site" +
+        " has no friends...Sad</h1></div>",
+        showLinks: true,
         latestComment: [],
-        hottest_article: []
+        hottest_article: [],
+        showLatestComment: true,
+        showHotPost: true
       }
     },
     components: {
-      LattestComment,
+      LatestComment,
       Carousel,
       HomePost,
       Pagination,
@@ -83,38 +86,35 @@
       HotestPost
     },
     created() {
-      this.$axios("http://localhost:8080/api/doIndex").then(response => {
-        if (response.data("article_list").length === 0) {
-          $("#home-post-list").html("<div class='home-post well clearfix'>\n<div class='post-title underline clearfix'>" +
-            "\n<h1>There is no articles posted yet!!!!</h1></div></div>");
-        }
-        else {
-          this.article_list = response.data("article_list");
-
-        }
-        if (response.data("links").length !== 0) {
-          this.links = response.data("links");
+      this.$axios.post("http://localhost:8080/api/doIndex").then(response => {
+        // console.log(this);
+        if (response.data["article_list"].length === 0) {
+          this.showHomePost = false;
         } else {
-          $("#links").empty().html("<div class='padding10 list-group collapse in'><h1>Our blog site" +
-            " has no friends...Sad</h1></div>");
+          this.article_list = response.data["article_list"];
         }
-      }).error(error => {
+        if (response.data["links"].length !== 0) {
+          this.links = response.data["links"];
+        } else {
+          this.showLinks = false;
+        }
+      }).catch(error => {
         console.log(error);
       });
 
-      this.$axios("http://localhost:8080/api/sideWidgets").then(response => {
-        if (response.data("hot_article_list").length === 0) {
-          $("#hotest-post-list").empty();
+      this.$axios.post("http://localhost:8080/api/sideWidgets").then(response => {
+        if (response.data["hot_article_list"].length === 0) {
+          this.showHotPost = false;
         } else {
-          this.hottest_article = response.data("hot_article_list");
+          this.hottest_article = response.data["hot_article_list"];
         }
-        if (response.data("latest_comment_list").length === 0) {
-          $("#latest-comment-list").empty();
+        if (response.data["latest_comment_list"].length === 0) {
+          this.showLatestComment = false;
         }
         else {
-          this.latestComment = response.data("latest_comment_list");
+          this.latestComment = response.data["latest_comment_list"];
         }
-      }).error(error => {
+      }).catch(error => {
         console.log(error);
       });
 
@@ -127,97 +127,5 @@
     background-color: rgba(0, 0, 0, 0.6);
     border-radius: 4px;
     margin-bottom: 20px;
-  }
-
-  /*nav中 login弹出窗口中的样式*/
-  #login-button {
-    float: right;
-  }
-
-  #forgetpassword {
-    float: right;
-  }
-
-  #forgetpassword a {
-    color: red;
-    font-size: 14px;
-    line-height: 30px;
-  }
-
-  /**************************/
-
-  /*首页右侧登陆界面样式*/
-  .login-form {
-    padding: 30px 20px;
-  }
-
-  .login-form .btn {
-    width: 48%;
-    padding: 10px;
-  }
-
-  /**************/
-
-  /*首页右侧的 search 样式*/
-  .search {
-    padding: 8px;
-    margin-bottom: 30px;
-    border-radius: 4px;
-    color: #FFF;
-    background-color: #222;
-    border-color: #EEE;
-    box-shadow: 0px 0px 5px #C2C2C2;
-  }
-
-  .search input {
-    width: 80% !important;
-    float: left;
-    margin-right: 5px;
-  }
-
-  /*************************/
-
-  /*首页右侧的 热门文章面板样式*/
-  .hotest-post-title {
-    display: inline-block;
-    overflow: hidden;
-    width: 80%;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-
-  /*首页右侧的分类面板*/
-  .pills-vmaig {
-    padding: 10px;
-    border-bottom: 1px solid #EEE;
-  }
-
-  .tab-content {
-    padding: 10px;
-  }
-
-  .tab-content .label {
-    display: block;
-    float: left;
-    margin: 5px;
-  }
-
-  .list-group-item {
-    border: solid inset #EEE;
-  }
-
-  .navbar-vmaig .navbar-brand {
-    font-weight: bold;
-    font-size: 25px;
-    margin-right: 10px;
-    color: #000;
-    text-shadow: 1px 2px 5px rgba(255, 255, 255, 0.1), 0px 0px 30px rgba(255, 255, 255, 0.125);
-  }
-
-  .navbar-vmaig .navbar-text {
-    margin: 30px 0px 0px 0px;
-    font-weight: bold;
-    color: #000;
-    text-shadow: 1px 2px 5px rgba(255, 255, 255, 0.1), 0px 0px 30px rgba(255, 255, 255, 0.125);
   }
 </style>

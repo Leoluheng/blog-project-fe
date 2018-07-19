@@ -14,9 +14,9 @@
         <div v-for="link in links">
           <!--<a  :title="link.title" target="_blank" :href="link.url"-->
           <!--:class="'btn btn-xs btn-' + link.color">{{link.title}}</a>-->
-          <router-link :title="link.title" target="_blank" :class="'btn btn-xs btn-' + link.color"
-                       :to="link.url">{{link.title}}
-          </router-link>
+          <a :title="link.title" target="_blank" :class="'btn btn-xs btn-' + link.color"
+                       :href="link.url">{{link.title}}
+          </a>
         </div>
       </div>
     </div>
@@ -35,13 +35,6 @@
         // }
       }
     }
-    // created(){
-    //   this.$axios('').then(response => {
-    //     this.links = response.data;
-    //   }).error(error => {
-    //     console.log(error);
-    //   })
-    // }
   }
 </script>
 
